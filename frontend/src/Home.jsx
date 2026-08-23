@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import CardBestChoices from "./components/CardBestChoices";
 import InputSummoner from "./components/InputSummoner";
 import { useState } from "react";
+import CardRanking from "./components/CardRanking";
 
 // Dados falsos simulando o que a API de rotação gratuita da Riot retornaria
 const freeRotationChampions = [
