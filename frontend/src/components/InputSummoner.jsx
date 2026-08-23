@@ -12,12 +12,13 @@ function InputSummoner() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    //validação do nome do invocador
     if (!summonerNameIsValid) {
       toast.error("Por favor, digite um nome de invocador válido.");
       return;
     }
 
-    const data = await searchSummoner(summonerName);
+    const data = await searchSummoner(summonerName); //Manda o nome + id para o services/summoner.js que por sua vez manda para o back end
     console.log("resposta do backend:", data);
   }
 
