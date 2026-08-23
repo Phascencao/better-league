@@ -3,6 +3,7 @@ import { env } from "../config/env.js";
 const BASE = `https://${env.riotRegion}.api.riotgames.com`;
 
 function httpError(message, status) {
+  //adiciona o status para o erro, para que o server.js possa retornar o status correto para o frontend
   const err = new Error(message);
   err.status = status;
   return err;
@@ -10,9 +11,11 @@ function httpError(message, status) {
 
 async function riotFetch(path) {
   if (!env.riotApiKey) {
+    //verifica se a API key está configurada
     throw httpError("RIOT_API_KEY não configurada no backend/.env", 500);
   }
 
+  //faz a requisição para a Riot com o header X-Riot-Token e um timeout de 8 segundos
   const res = await fetch(`${BASE}${path}`, {
     headers: { "X-Riot-Token": env.riotApiKey },
     signal: AbortSignal.timeout(8000),
