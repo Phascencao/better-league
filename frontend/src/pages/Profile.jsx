@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Header from "./components/Header";
+import Header from "../components/Header";
 
 // Dados falsos simulando o retorno de Account-V1 + Summoner-V4 + League-V4 + Match-V5 (agregado)
 const fakeProfileData = {

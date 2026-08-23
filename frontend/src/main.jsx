@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import Home from "./Home.jsx";
-import Profile from "./Profile.jsx";
+import Profile from "./pages/Profile.jsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
