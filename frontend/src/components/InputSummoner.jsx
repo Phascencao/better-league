@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { searchSummoner } from "../services/summoner";
+import { toast } from "sonner";
 
-function InputSummoner(props) {
+function InputSummoner() {
   const [summonerName, setSummonerName] = useState("");
+
+  const regex = /^[a-zA-ZÀ-ÿ0-9]+(?: [a-zA-ZÀ-ÿ0-9]+)*#[a-zA-Z0-9]+$/;
+
+  const summonerNameIsValid = regex.test(summonerName.trim());
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!summonerName.trim()) {
-      return alert("Por favor, digite um nome de invocador válido.");
+    if (!summonerNameIsValid) {
+      toast.error("Por favor, digite um nome de invocador válido.");
+      return;
     }
 
-    const data = await searchSummoner(summonerName);
+    const data = await searchSummoner(summonerNameIsValid);
     console.log("resposta do backend:", data);
   }
 
@@ -19,26 +25,40 @@ function InputSummoner(props) {
     <div className="flex justify-center">
       <form
         onSubmit={handleSubmit}
-        className="flex w-full max-w-2xl items-center shadow-xl overflow-hidden rounded-lg border border-strong bg-surface pr-1 focus-within:border-amber-600 focus-within:ring-2 focus-within:ring-amber-500/20"
+        className="flex bg-surface-raised w-full max-w-3xl items-center rounded-xl border border-strong bg-surface p-2 shadow-input focus-within:border-gold-700 focus-within:ring-2 focus-within:ring-gold-500/20"
       >
-        <input
-          type="text"
-          placeholder="Digite algo..."
-          value={summonerName}
-          onChange={(e) => setSummonerName(e.target.value)}
-          className="flex-1 bg-transparent px-3 py-2 text-sm  outline-none"
-        />
+        {/* HARDCODED - ALTERAR FUTURAMENTE QUANDO IMPLEMENTAR AS REGIÕES */}
         <button
           type="button"
-          aria-label="Buscar"
-          onClick={(e) => {
-            if (!summonerName.trim()) {
-              return alert("Por favor, digite um nome de invocador válido.");
-            }
+          className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-primary"
+        >
+          BR1
+          <svg
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-3 w-3 text-muted"
+          >
+            <path d="M5.5 7.5 10 12l4.5-4.5" />
+          </svg>
+        </button>
 
-            handleSubmit(e);
-          }}
-          className="rounded px-3 py-1.5 text-sm text-amber-800 hover:bg-amber-50"
+        <span aria-hidden className="mx-2 h-7 border-l border-subtle" />
+
+        <input
+          type="text"
+          placeholder="Nome do invocador # TAG"
+          value={summonerName}
+          onChange={(e) => setSummonerName(e.target.value)}
+          className="h-11 flex-1 bg-transparent px-3 text-sm text-primary outline-none placeholder:text-muted"
+        />
+
+        <button
+          type="submit"
+          className="rounded-lg bg-gold-500 px-6 py-2.5 text-sm font-semibold text-gold-900 transition-colors hover:bg-gold-600"
         >
           Buscar
         </button>
