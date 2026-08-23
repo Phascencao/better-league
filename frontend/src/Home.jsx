@@ -1,10 +1,10 @@
 import Header from "./components/Header";
 import CardBestChoices from "./components/CardBestChoices";
+import CardTrendingChampions from "./components/CardTrendingChampions";
 import CardRanking from "./components/CardRanking";
 import InputSummoner from "./components/InputSummoner";
 import { useState } from "react";
 
-// Dados falsos simulando o que a API de rotação gratuita da Riot retornaria
 const freeRotationChampions = [
   { name: "Yasuo", role: "MID" },
   { name: "Lee Sin", role: "JG" },
@@ -60,9 +60,7 @@ function Home() {
           ))}
         </CardBestChoices>
 
-        <CardBestChoices title="teste" badge="">
-          teste
-        </CardBestChoices>
+        <CardTrendingChampions />
 
         <CardRanking />
       </div>
