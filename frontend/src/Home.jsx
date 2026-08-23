@@ -25,38 +25,42 @@ function Home() {
     <div className="min-h-screen w-full bg-base">
       <Header />
 
-      {/* HERO: eyebrow + título + subtítulo + fundo listrado */}
+      {/* HERO: eyebrow + título + subtítulo + fundo listrado com fade vertical */}
       <div
-  className="relative"
-  style={{
-    backgroundImage:
-      "repeating-linear-gradient(-45deg, rgba(160, 130, 60, 0.09) 0px, rgba(160, 130, 60, 0.09) 2px, transparent 2px, transparent 12px)",
-  }}
->
-  <div className="max-w-2xl mx-auto text-center px-4 pt-20 pb-10">
-    <p className="text-[#8A6A1B] text-xs font-bold tracking-[0.3em] uppercase mb-4">
-      Temporada 15 · Patch 15.16
-    </p>
+        className="relative"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(-45deg, rgba(160, 130, 60, 0.12) 0px, rgba(160, 130, 60, 0.12) 2px, transparent 2px, transparent 12px)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 0%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, black 0%, transparent 100%)",
+        }}
+      >
+        <div className="max-w-2xl mx-auto text-center px-4 pt-20 pb-10">
+          <p className="text-[#8A6A1B] text-xs font-bold tracking-[0.3em] uppercase mb-4">
+            Temporada 15 · Patch 15.16
+          </p>
 
-    <h1 className="font-serif text-[#17223A] text-4xl md:text-5xl font-bold leading-tight mb-6">
-      Leia a partida antes
-      <br />
-      de jogá-la
-    </h1>
+          <h1 className="font-serif text-[#17223A] text-4xl md:text-5xl font-bold leading-tight mb-6">
+            Leia a partida antes
+            <br />
+            de jogá-la
+          </h1>
 
-    <p className="text-[#5B5142] text-base max-w-xl mx-auto">
-      Histórico, tier list e análise ao vivo. Um número em destaque por
-      bloco, o resto é contexto.
-    </p>
-  </div>
+          <p className="text-[#5B5142] text-base max-w-xl mx-auto">
+            Histórico, tier list e análise ao vivo. Um número em destaque por
+            bloco, o resto é contexto.
+          </p>
+        </div>
 
-  <div className="pb-16">
-    <InputSummoner
-      SerchRiotSummoner={SerchRiotSummoner}
-      summoner={summoner}
-    />
-  </div>
-</div>
+        <div className="pb-16">
+          <InputSummoner
+            SerchRiotSummoner={SerchRiotSummoner}
+            summoner={summoner}
+          />
+        </div>
+      </div>
 
       <div className="flex flex-wrap justify-center gap-6 px-4 pb-20">
         <CardBestChoices title="Rotação grátis da semana" badge="SEMANAL">
