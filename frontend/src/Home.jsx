@@ -25,16 +25,40 @@ function Home() {
     <div className="min-h-screen w-full bg-base">
       <Header />
 
-      <h1 className="text-[#17223A] text-2xl font-bold text-center py-20">
-        Leia a partida antes de jogá-la
-      </h1>
+      {/* HERO: eyebrow + título + subtítulo + fundo listrado */}
+      <div
+        className="relative"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(45deg, rgba(160, 130, 60, 0.05) 0px, rgba(160, 130, 60, 0.05) 1px, transparent 1px, transparent 14px)",
+        }}
+      >
+        <div className="max-w-2xl mx-auto text-center px-4 pt-20 pb-10">
+          <p className="text-[#8A6A1B] text-xs font-bold tracking-[0.3em] uppercase mb-4">
+            Temporada 15 · Patch 15.16
+          </p>
 
-      <InputSummoner
-        SerchRiotSummoner={SerchRiotSummoner}
-        summoner={summoner}
-      />
+          <h1 className="font-serif text-[#17223A] text-4xl md:text-5xl font-bold leading-tight mb-6">
+            Leia a partida antes
+            <br />
+            de jogá-la
+          </h1>
 
-      <div className="flex flex-wrap justify-center gap-6 px-4 pb-20 pt-16">
+          <p className="text-[#5B5142] text-base max-w-xl mx-auto">
+            Histórico, tier list e análise ao vivo. Um número em destaque por
+            bloco, o resto é contexto.
+          </p>
+        </div>
+
+        <div className="pb-16">
+          <InputSummoner
+            SerchRiotSummoner={SerchRiotSummoner}
+            summoner={summoner}
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-center gap-6 px-4 pb-20">
         <CardBestChoices title="Rotação grátis da semana" badge="SEMANAL">
           {freeRotationChampions.map((champion) => (
             <div
