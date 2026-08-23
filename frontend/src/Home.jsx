@@ -25,40 +25,46 @@ function Home() {
     <div className="min-h-screen w-full bg-base">
       <Header />
 
-      {/* HERO: eyebrow + título + subtítulo + fundo listrado com fade vertical */}
-      <div
-        className="relative"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(-45deg, rgba(160, 130, 60, 0.12) 0px, rgba(160, 130, 60, 0.12) 2px, transparent 2px, transparent 12px)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, black 0%, transparent 100%)",
-          maskImage:
-            "linear-gradient(to bottom, black 0%, transparent 100%)",
-        }}
-      >
-        <div className="max-w-2xl mx-auto text-center px-4 pt-20 pb-10">
-          <p className="text-[#8A6A1B] text-xs font-bold tracking-[0.3em] uppercase mb-4">
-            Temporada 15 · Patch 15.16
-          </p>
+      {/* HERO */}
+      <div className="relative overflow-hidden">
+        {/* Camada de FUNDO: só a listra + fade. Fica atrás de tudo (z-0) */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(-45deg, rgba(160, 130, 60, 0.12) 0px, rgba(160, 130, 60, 0.12) 2px, transparent 2px, transparent 12px)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 0%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to bottom, black 0%, transparent 100%)",
+          }}
+        />
 
-          <h1 className="font-serif text-[#17223A] text-4xl md:text-5xl font-bold leading-tight mb-6">
-            Leia a partida antes
-            <br />
-            de jogá-la
-          </h1>
+        {/* Camada de CONTEÚDO: texto e input, 100% opacos, por cima (z-10) */}
+        <div className="relative z-10">
+          <div className="max-w-2xl mx-auto text-center px-4 pt-20 pb-10">
+            <p className="text-[#8A6A1B] text-xs font-bold tracking-[0.3em] uppercase mb-4">
+              Temporada 15 · Patch 15.16
+            </p>
 
-          <p className="text-[#5B5142] text-base max-w-xl mx-auto">
-            Histórico, tier list e análise ao vivo. Um número em destaque por
-            bloco, o resto é contexto.
-          </p>
-        </div>
+            <h1 className="font-serif text-[#17223A] text-4xl md:text-5xl font-bold leading-tight mb-6">
+              Leia a partida antes
+              <br />
+              de jogá-la
+            </h1>
 
-        <div className="pb-16">
-          <InputSummoner
-            SerchRiotSummoner={SerchRiotSummoner}
-            summoner={summoner}
-          />
+            <p className="text-[#5B5142] text-base max-w-xl mx-auto">
+              Histórico, tier list e análise ao vivo. Um número em destaque
+              por bloco, o resto é contexto.
+            </p>
+          </div>
+
+          <div className="pb-16">
+            <InputSummoner
+              SerchRiotSummoner={SerchRiotSummoner}
+              summoner={summoner}
+            />
+          </div>
         </div>
       </div>
 
