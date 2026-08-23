@@ -17,7 +17,7 @@ function InputSummoner() {
       return;
     }
 
-    const data = await searchSummoner(summonerNameIsValid);
+    const data = await searchSummoner(summonerName);
     console.log("resposta do backend:", data);
   }
 
