@@ -1,31 +1,25 @@
 import express from "express";
 import cors from "cors";
-import { getAccountByRiotId } from "./services/riot.service.js";
+import accountRoute from "./routes/account.routes.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
+import { env } from "./config/env.js";
 
-//Basicamente a API entre frontend e backend
+//Basicamente onde orquestra as rotas e middlewares do backend. Aqui é onde o servidor é iniciado e as rotas são registradas.
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+const PORT = env.port || 3000;
 
 app.use(cors());
-app.get(
-  "/riot/account/:gameName/:tagLine", //API que o frontend chama para buscar o summoner
-  async (req, res) => {
-    const { gameName, tagLine } = req.params;
 
-    try {
-      const account = await getAccountByRiotId(gameName, tagLine); //API que chama a Riot para buscar o summoner getAccountByRiotId()
-      res.json(account);
-    } catch (err) {
-      if (err.status) {
-        return res.status(err.status).json({ message: err.message }); //se o erro tiver status, retorna o status e a mensagem do erro
-      }
+//verifica a saude do servidor, para o frontend saber se o backend está funcionando
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
-      console.error(err);
-      res.status(500).json({ message: "Erro interno no servidor." });
-    }
-  },
-);
+app.use("/riot/account", accountRoute); //rota para buscar o summoner na Riot
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -5,6 +5,7 @@ export const env = {
   port: Number(process.env.PORT ?? 3333),
   riotApiKey: process.env.RIOT_API_KEY ?? "",
   riotRegion: process.env.RIOT_REGION ?? "americas",
+  riotPlataform: process.env.RIOT_PLATFORM ?? "br1",
   corsOrigin: process.env.CORS_ORIGIN ?? "*",
 };
 
@@ -14,6 +15,6 @@ if (!env.riotApiKey) {
   console.warn(
     "\n[AVISO] RIOT_API_KEY não configurada em backend/.env" +
       "\n        Pegue uma chave em https://developer.riotgames.com" +
-      "\n        As rotas que consultam a Riot vão responder 500 até lá.\n"
+      "\n        As rotas que consultam a Riot vão responder 500 até lá.\n",
   );
 }
