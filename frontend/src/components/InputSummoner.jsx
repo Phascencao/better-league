@@ -1,16 +1,18 @@
 import { useState } from "react";
+import { searchSummoner } from "../services/summoner";
 
 function InputSummoner(props) {
   const [summonerName, setSummonerName] = useState("");
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!summonerName.trim()) {
       return alert("Por favor, digite um nome de invocador válido.");
     }
 
-    props.SerchRiotSummoner(summonerName);
+    const data = await searchSummoner(summonerName);
+    console.log("resposta do backend:", data);
   }
 
   return (
