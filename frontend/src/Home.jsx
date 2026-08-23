@@ -1,8 +1,8 @@
 import Header from "./components/Header";
 import CardBestChoices from "./components/CardBestChoices";
+import CardRanking from "./components/CardRanking";
 import InputSummoner from "./components/InputSummoner";
 import { useState } from "react";
-import CardRanking from "./components/CardRanking";
 
 // Dados falsos simulando o que a API de rotação gratuita da Riot retornaria
 const freeRotationChampions = [
@@ -64,9 +64,7 @@ function Home() {
           teste
         </CardBestChoices>
 
-        <CardBestChoices title="teste" badge="">
-          teste
-        </CardBestChoices>
+        <CardRanking />
       </div>
     </div>
   );
