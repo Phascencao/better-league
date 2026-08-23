@@ -1,0 +1,9 @@
+node_modules
+
+# Segredos: o .env NUNCA vai para o Git. O .env.example vai.
+.env
+.env.*
+!.env.example
+
+*.log
+npm-debug.log*

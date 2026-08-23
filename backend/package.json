@@ -1,0 +1,16 @@
+{
+  "name": "better-league-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "BFF do Better League - intermedia o front e a Riot API",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch --env-file=.env src/server.js",
+    "start": "node --env-file=.env src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
