@@ -10,7 +10,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/Início" element={<Home />} />
         <Route path="/profile/:gameName/:tagLine" element={<Profile />} />
       </Routes>
     </BrowserRouter>

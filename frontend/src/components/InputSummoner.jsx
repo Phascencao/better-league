@@ -1,32 +1,40 @@
 import { useState } from "react";
 import { searchSummoner } from "../services/summoner";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 function InputSummoner() {
   const [summonerName, setSummonerName] = useState("");
-
+  const navigate = useNavigate();
+  
   const regex = /^[a-zA-ZÀ-ÿ0-9]+(?: [a-zA-ZÀ-ÿ0-9]+)*#[a-zA-Z0-9]+$/;
-
+  
   const summonerNameIsValid = regex.test(summonerName.trim());
-
+  
   async function handleSubmit(e) {
     e.preventDefault();
-
+    
     //validação do nome do invocador
     if (!summonerNameIsValid) {
       toast.error("Por favor, digite um nome de invocador válido.");
       return;
     }
-
+    
     const riotId = summonerName.trim();
-
+    
     try {
       const data = await searchSummoner(riotId); //Manda o nome + id para o services/summoner.js que por sua vez manda para o back end
-      console.log("resposta do backend:", data);
-
-      //só entra nos recentes se a busca deu certo
       const [name, tag] = riotId.split("#");
       addRecentSummoner({ name, tag });
+      
+  
+        
+        navigate(
+        `/profile/${encodeURIComponent(name)}/${encodeURIComponent(tag)}`
+        );
+        console.log("resposta do backend:", data);
+      
+      //só entra nos recentes se a busca deu certo
     } catch (error) {
       console.error(error);
       toast.error("Não foi possível buscar esse invocador.");

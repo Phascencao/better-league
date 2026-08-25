@@ -1,7 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 function ButtonHeader({ label, active, onClick }) {
+const navigation = useNavigate();
+const onNavigationButton = (label) => {
+    navigation(`/${label}`);
+}
   return (
     <button
-      onClick={onClick}
+      onClick={() => onNavigationButton(label)}
       className={
         "pb-1 text-sm font-semibold underline-offset-8 transition-colors " +
         (active
