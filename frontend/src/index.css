@@ -2,10 +2,108 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===========================================================================
+   TOKENS SEMÂNTICOS
+   O tema é trocado pelo atributo data-theme no <html>.
+   Sem atributo = light. data-theme="dark" = dark.
+   =========================================================================== */
+
 @layer base {
+  /* ---------------------------- LIGHT ------------------------------------
+     Mesma paleta, só com mais presença do bronze: as superfícies e bordas
+     saem da rampa gold em vez de um cinza neutro. O ouro claro não passa
+     contraste em texto, então accent de TEXTO é gold-700 e gold-400 só
+     entra como preenchimento. */
+  :root {
+    --bg-base: #f4ebda;
+    --surface: #fdf9f0; /* gold-50 */
+    --surface-raised: #f2e2be; /* gold-200 */
+    --border-subtle: #e3d3b6;
+    --border-strong: #b5822a; /* gold-600 */
+    --text-primary: #17223a;
+    --text-secondary: #422d14; /* gold-900 */
+    --text-muted: #8f6420; /* gold-700 */
+    --accent: #8f6420; /* gold-700 */
+    --accent-hover: #b5822a; /* gold-600 */
+    --accent-press: #6b4a1b; /* gold-800 */
+    --accent-fill: #ddb765; /* gold-400 */
+    --focus-ring: #b5822a; /* gold-600 */
+    --positive: #1e7a5c;
+    --negative: #b23b33;
+  }
+
+  /* ----------------------------- DARK -------------------------------------
+     Contraste do texto primário sobre a base: 12,4:1. */
+  [data-theme="dark"] {
+    --bg-base: #0a1428; /* navy-900 */
+    --surface: #101f38;
+    --surface-raised: #16294a; /* navy-700 */
+    --border-subtle: #1b2e4e;
+    --border-strong: #23385e; /* navy-600 */
+    --text-primary: #e6e1d3;
+    --text-secondary: #c3d0e5; /* navy-200 */
+    --text-muted: #92a6c6; /* navy-300 */
+    --accent: #ddb765; /* gold-400 — ação primária, rank */
+    --accent-hover: #e8ce94; /* gold-300 — hover clareia */
+    --accent-press: #b5822a; /* gold-600 — pressionado */
+    --accent-fill: #ddb765;
+    --focus-ring: #5a8fd6; /* navy-400 */
+    --positive: #3fb68b;
+    --negative: #d6524a;
+  }
+
   html,
   body,
   #root {
     @apply min-h-full;
+  }
+
+  body {
+    @apply bg-base font-sans text-secondary;
+  }
+
+  /* Foco visível em tudo que é clicável: anel 2px + offset 2px.
+     A regra da identidade é explícita: nunca outline: none. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* -------------------------------------------------------------------------
+     TIERS — um único par de fórmulas gera todos os nove:
+       fill  = matiz a 12% sobre a base
+       texto = matiz a 70%
+       borda = matiz a 30%
+     Uso: <span className="tier tier-ouro">Ouro</span>
+     ---------------------------------------------------------------------- */
+  .tier {
+    background-color: color-mix(in oklab, var(--tier) 12%, var(--bg-base));
+    border: 1px solid color-mix(in oklab, var(--tier) 30%, var(--bg-base));
+    color: color-mix(in oklab, var(--tier) 70%, var(--text-primary));
+  }
+
+  .tier-ferro { --tier: #6e7a8a; }
+  .tier-bronze { --tier: #b0703e; }
+  .tier-prata { --tier: #9aa9b8; }
+  .tier-ouro { --tier: #e3b04b; }
+  .tier-platina { --tier: #4fbfa8; }
+  .tier-diamante { --tier: #5a8fd6; }
+  .tier-mestre { --tier: #a57bd4; }
+  .tier-grao-mestre { --tier: #d6524a; }
+  .tier-desafiante { --tier: #e8c15a; }
+
+  /* Label em caixa alta no mono: RANQUEADA SOLO · S15 */
+  .label-mono {
+    @apply font-mono text-xs uppercase text-muted;
+    /* literal em vez de @apply tracking-label: @apply depende do config
+       recarregar, e o dev server do Vite não recarrega o tailwind.config.js */
+    letter-spacing: 0.18em;
+  }
+
+  /* Todo dado tabular alinha por coluna */
+  .num {
+    @apply font-mono tabular-nums;
   }
 }

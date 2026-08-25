@@ -194,17 +194,18 @@ function Profile() {
       {/* Cabeçalho do perfil */}
       <div className="relative overflow-hidden bg-[#F5EEDA] border-b border-[#C9A961]/30">
         <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(-45deg, rgba(160, 130, 60, 0.12) 0px, rgba(160, 130, 60, 0.12) 2px, transparent 2px, transparent 12px)",
-            WebkitMaskImage:
-              "linear-gradient(to left, black 0%, transparent 100%)",
-            maskImage: "linear-gradient(to left, black 0%, transparent 100%)",
-          }}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(-45deg, rgba(160, 130, 60, 0.12) 0px, rgba(160, 130, 60, 0.12) 2px, transparent 2px, transparent 12px)",
+          WebkitMaskImage:
+            "linear-gradient(to left, black 0%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to left, black 0%, transparent 100%)",
+        }}
         />
 
-        <div className="relative z-10 max-w-5xl mx-auto flex items-center justify-between px-4 py-8">
+        <div className="relative z-10 w-full px-10 py-8 flex items-center justify-between">
           <div className="flex items-center gap-5">
             <div className="relative">
               <ChampionPlaceholder className="w-20 h-20 rounded-xl" />
@@ -241,9 +242,9 @@ function Profile() {
       </div>
 
       {/* Conteúdo principal */}
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-6 px-4 py-8">
+      <div className="w-full flex flex-col md:flex-row gap-6 px-10 py-8">
         {/* Coluna esquerda */}
-        <div className="w-full md:w-72 flex-shrink-0 flex flex-col gap-6">
+        <div className="w-full md:w-[340px] flex-shrink-0 flex flex-col gap-6">
           {/* Elo atual */}
           <div className="bg-[#FBF3E1] border border-[#C9A961]/50 rounded-xl px-5 py-4">
             <p className="text-[10px] font-bold uppercase tracking-wider text-[#8A6A1B] mb-3">

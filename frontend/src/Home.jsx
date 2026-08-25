@@ -43,19 +43,17 @@ function Home() {
         {/* Camada de CONTEÚDO: texto e input, 100% opacos, por cima (z-10) */}
         <div className="relative z-10">
           <div className="max-w-2xl mx-auto text-center px-4 pt-20 pb-10">
-            <p className="text-[#8A6A1B] text-xs font-bold tracking-[0.3em] uppercase mb-4">
-              Temporada 15 · Patch 15.16
-            </p>
+            <p className="label-mono mb-4">Temporada 15 · Patch 15.16</p>
 
-            <h1 className="font-serif text-[#17223A] text-4xl md:text-5xl font-bold leading-tight mb-6">
+            <h1 className="font-display font-semibold text-4xl sm:text-display text-primary mb-6">
               Leia a partida antes
               <br />
               de jogá-la
             </h1>
 
-            <p className="text-[#5B5142] text-base max-w-xl mx-auto">
-              Histórico, tier list e análise ao vivo. Um número em destaque
-              por bloco, o resto é contexto.
+            <p className="text-secondary text-base max-w-xl mx-auto">
+              Histórico, tier list e análise ao vivo. Um número em destaque por
+              bloco, o resto é contexto.
             </p>
           </div>
 
