@@ -1,17 +1,26 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import Home from "./Home.jsx";
 import Profile from "./pages/Profile.jsx";
+import EmBreve from "./pages/EmBreve.jsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/Início" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/profile/:gameName/:tagLine" element={<Profile />} />
+
+        {/* SEÇÕES AINDA SEM PÁGINA - trocar pelo componente real quando existir */}
+        <Route path="/tier-list" element={<EmBreve secao="Tier list" />} />
+        <Route path="/campeoes" element={<EmBreve secao="Campeões" />} />
+        <Route path="/ao-vivo" element={<EmBreve secao="Ao vivo" />} />
+        <Route path="/ranking" element={<EmBreve secao="Ranking" />} />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
 

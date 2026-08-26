@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import logo from "../assets/better-league-logo.png";
 import ButtonHeader from "./ButtonHeader";
 
-const NAV_ITEMS = ["Início", "Tier list", "Campeões", "Ao vivo", "Ranking"];
+// O label é o que aparece na tela, o path é a URL. Os dois são coisas
+// diferentes: label muda com tradução/copy, path é contrato da aplicação.
+const NAV_ITEMS = [
+  { label: "Início", path: "/" },
+  { label: "Tier list", path: "/tier-list" },
+  { label: "Campeões", path: "/campeoes" },
+  { label: "Ao vivo", path: "/ao-vivo" },
+  { label: "Ranking", path: "/ranking" },
+];
 
 function Header() {
-  const [activeItem, setActiveItem] = useState("Início");
+  const { pathname } = useLocation();
 
   return (
     <header className="bg-surface-raised shadow-md border-b border-strong py-4 px-6 flex items-center">
@@ -16,15 +24,15 @@ function Header() {
       <nav className="flex items-center gap-8 px-10 mr-auto">
         {NAV_ITEMS.map((item) => (
           <ButtonHeader
-            key={item}
-            label={item}
-            active={activeItem === item}
-            onClick={() => setActiveItem(item)}
+            key={item.path}
+            label={item.label}
+            path={item.path}
+            active={pathname === item.path}
           />
         ))}
       </nav>
 
-      {activeItem === "Ao vivo" ? <LiveMatchBadge /> : <HeaderControls />}
+      {pathname === "/ao-vivo" ? <LiveMatchBadge /> : <HeaderControls />}
     </header>
   );
 }
