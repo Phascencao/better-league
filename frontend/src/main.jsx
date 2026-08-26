@@ -6,6 +6,7 @@ import Home from "./Home.jsx";
 import Profile from "./pages/Profile.jsx";
 import EmBreve from "./pages/EmBreve.jsx";
 import Challenges from "./pages/Challenges.jsx";
+import TierList from "./pages/TierList.jsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
@@ -16,11 +17,11 @@ createRoot(document.getElementById("root")).render(
         <Route path="/profile/:gameName/:tagLine" element={<Profile />} />
 
         {/* SEÇÕES AINDA SEM PÁGINA - trocar pelo componente real quando existir */}
-        <Route path="/tier-list" element={<EmBreve secao="Tier list" />} />
         <Route path="/campeoes" element={<EmBreve secao="Campeões" />} />
         <Route path="/ao-vivo" element={<EmBreve secao="Ao vivo" />} />
         <Route path="/ranking" element={<EmBreve secao="Ranking" />} />
         <Route path="/desafios" element={<Challenges />} />
+        <Route path="/tier-list" element={<TierList />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
