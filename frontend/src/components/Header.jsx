@@ -1,4 +1,5 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import logo from "../assets/better-league-logo.png";
 import ButtonHeader from "./ButtonHeader";
 
@@ -12,8 +13,14 @@ const NAV_ITEMS = [
   { label: "Ranking", path: "/ranking" },
 ];
 
+const REGIONS = [
+  "BR1", "EUN1", "EUW1", "JP1", "KR", "LA1", "LA2",
+  "ME1", "NA1", "OC1", "RU", "SG2", "TR1", "TW2", "VN2",
+];
+
 function Header() {
   const { pathname } = useLocation();
+  const isProfilePage = pathname.startsWith("/profile");
 
   return (
     <header className="bg-surface-raised shadow-md border-b border-strong py-4 px-6 flex items-center">
@@ -32,7 +39,13 @@ function Header() {
         ))}
       </nav>
 
-      {pathname === "/ao-vivo" ? <LiveMatchBadge /> : <HeaderControls />}
+      {pathname === "/ao-vivo" ? (
+        <LiveMatchBadge />
+      ) : isProfilePage ? (
+        <SearchBar />
+      ) : (
+        <HeaderControls />
+      )}
     </header>
   );
 }
@@ -46,7 +59,6 @@ function LiveMatchBadge() {
     </div>
   );
 }
-
 
 //HARDCODED - ALTERAR FUTURAMENTE QUANDO IMPLEMENTAR O DARK MODE E AS REGIÕES
 function HeaderControls() {
@@ -84,6 +96,52 @@ function HeaderControls() {
         </svg>
       </button>
     </div>
+  );
+}
+
+//HARDCODED - ALTERAR FUTURAMENTE QUANDO IMPLEMENTAR A BUSCA DE INVOCADOR DE VERDADE
+function SearchBar() {
+  const [region, setRegion] = useState("BR1");
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const trimmed = search.trim();
+    if (!trimmed) return;
+
+    // TODO: quando o back-end existir, validar de verdade o formato "Nome#TAG"
+    const [gameName, tagLine] = trimmed.split("#");
+    if (gameName && tagLine) {
+      navigate(`/profile/${gameName}/${tagLine}`);
+    }
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center rounded-md border border-strong bg-surface overflow-hidden"
+    >
+      <select
+        value={region}
+        onChange={(e) => setRegion(e.target.value)}
+        className="bg-gold-50 text-primary text-sm font-semibold px-3 py-1.5 border-r border-strong focus:outline-none cursor-pointer"
+      >
+        {REGIONS.map((r) => (
+          <option key={r} value={r}>
+            {r}
+          </option>
+        ))}
+      </select>
+
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Buscar invocador"
+        className="bg-transparent text-sm text-primary placeholder:text-accent/60 px-3 py-1.5 w-48 focus:outline-none"
+      />
+    </form>
   );
 }
 
