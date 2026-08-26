@@ -17,9 +17,7 @@ async function riotFetch(base, path) {
     throw httpError("RIOT_API_KEY não configurada no backend/.env", 500);
   }
 
-  console.log(
-    `api key <<<<<<<<< ${env.riotApiKey} <<<<<<<<<<<< ${base}${path}`,
-  ); //loga o status da requisição para a Riot no console do backend
+  console.log(` <<<<<<<<<<<< ${base}${path}`); //loga o status da requisição para a Riot no console do backend
 
   //faz a requisição para a Riot com o header X-Riot-Token e um timeout de 8 segundos
   const res = await fetch(`${base}${path}`, {
@@ -57,10 +55,9 @@ export function getAccountByPuuid(puuid) {
 }
 
 export async function getSummonerProfile(gameName, tagLine) {
-  console.log("entrou no getSummonerProfile");
   const account = await getAccountByRiotId(gameName, tagLine);
-  console.log("peguei o account"); //retorna o account para o frontend
+
   const summoner = await getAccountByPuuid(account.puuid);
-  console.log(summoner); //retorna o summoner para o frontend
+
   return summoner;
 }

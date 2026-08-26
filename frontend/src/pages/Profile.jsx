@@ -1,5 +1,9 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 import Header from "../components/Header";
+import ProfileIcon from "../components/ProfileIcon";
+import { getSummonerByRiotId } from "../services/summoner";
 
 // Dados falsos simulando o retorno de Account-V1 + Summoner-V4 + League-V4 + Match-V5 (agregado)
 const fakeProfileData = {
@@ -148,8 +152,8 @@ function MatchCard({ match }) {
             {match.kills} / {match.deaths} / {match.assists}
           </p>
           <p className="text-[11px] text-[#8A6A1B] mt-1">
-            KDA {match.kdaRatio.toFixed(1)} · {match.csPerMin.toFixed(1)}{" "}
-            CS/min · P/Kill {match.killParticipation}%
+            KDA {match.kdaRatio.toFixed(1)} · {match.csPerMin.toFixed(1)} CS/min
+            · P/Kill {match.killParticipation}%
           </p>
         </div>
       </div>
@@ -181,11 +185,34 @@ function MatchCard({ match }) {
 
 function Profile() {
   const { gameName, tagLine } = useParams();
+  const [summoner, setSummoner] = useState(null);
 
-  // No futuro isso vira uma chamada de API real usando gameName/tagLine.
-  // Por ora, ignoramos o parâmetro da URL e usamos os dados fake acima
-  // pra montar o frontend.
+  // Por enquanto só ícone e nível vêm da API de verdade. O resto da tela
+  // (elo, campeões, partidas) segue nos dados fake até as outras rotas
+  // do backend existirem.
   const data = fakeProfileData;
+
+  useEffect(() => {
+    // StrictMode monta duas vezes em dev: a flag evita setState em componente
+    // já desmontado quando a resposta chega fora de ordem.
+    let ativo = true;
+
+    async function carregarSummoner() {
+      try {
+        const resposta = await getSummonerByRiotId(gameName, tagLine);
+        if (ativo) setSummoner(resposta.summoner);
+      } catch (error) {
+        console.error(error);
+        if (ativo) toast.error("Não foi possível carregar esse perfil.");
+      }
+    }
+
+    carregarSummoner();
+
+    return () => {
+      ativo = false;
+    };
+  }, [gameName, tagLine]);
 
   return (
     <div className="min-h-screen w-full bg-base">
@@ -194,33 +221,30 @@ function Profile() {
       {/* Cabeçalho do perfil */}
       <div className="relative overflow-hidden bg-[#F5EEDA] border-b border-[#C9A961]/30">
         <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(-45deg, rgba(160, 130, 60, 0.12) 0px, rgba(160, 130, 60, 0.12) 2px, transparent 2px, transparent 12px)",
-          WebkitMaskImage:
-            "linear-gradient(to left, black 0%, transparent 100%)",
-          maskImage:
-            "linear-gradient(to left, black 0%, transparent 100%)",
-        }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(-45deg, rgba(160, 130, 60, 0.12) 0px, rgba(160, 130, 60, 0.12) 2px, transparent 2px, transparent 12px)",
+            WebkitMaskImage:
+              "linear-gradient(to left, black 0%, transparent 100%)",
+            maskImage: "linear-gradient(to left, black 0%, transparent 100%)",
+          }}
         />
 
         <div className="relative z-10 w-full px-10 py-8 flex items-center justify-between">
           <div className="flex items-center gap-5">
-            <div className="relative">
-              <ChampionPlaceholder className="w-20 h-20 rounded-xl" />
-              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#17223A] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                {data.level}
-              </span>
-            </div>
+            <ProfileIcon
+              profileIconId={summoner?.profileIconId}
+              level={summoner?.summonerLevel}
+            />
 
             <div>
               <div className="flex items-baseline gap-1">
                 <h1 className="font-serif text-[#17223A] text-2xl font-bold">
-                  {data.gameName}
+                  {gameName}
                 </h1>
                 <span className="text-[#8A6A1B] text-base font-semibold">
-                  #{data.tagLine}
+                  #{tagLine}
                 </span>
               </div>
               <p className="text-[#8A6A1B] text-xs mt-1">
@@ -302,8 +326,7 @@ function Profile() {
                       {champion.name}
                     </p>
                     <p className="text-[10px] text-[#8A6A1B]">
-                      {champion.games} partidas · {champion.kda.toFixed(1)}{" "}
-                      KDA
+                      {champion.games} partidas · {champion.kda.toFixed(1)} KDA
                     </p>
                   </div>
                 </div>
@@ -327,18 +350,13 @@ function Profile() {
               <div key={stat.label} className="mb-3 last:mb-0">
                 <div className="flex justify-between text-xs mb-1">
                   <span className="text-[#8A6A1B]">{stat.label}</span>
-                  <span className="text-[#17223A] font-bold">
-                    {stat.value}
-                  </span>
+                  <span className="text-[#17223A] font-bold">{stat.value}</span>
                 </div>
                 <div className="w-full h-1.5 bg-[#E8DCC0] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-[#C9A961]"
                     style={{
-                      width: `${Math.min(
-                        (stat.value / stat.max) * 100,
-                        100
-                      )}%`,
+                      width: `${Math.min((stat.value / stat.max) * 100, 100)}%`,
                     }}
                   />
                 </div>

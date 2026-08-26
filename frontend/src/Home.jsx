@@ -26,7 +26,9 @@ function Home() {
       <Header />
 
       {/* HERO */}
-      <div className="relative overflow-hidden">
+      {/* sem overflow-hidden: ele cortaria o dropdown de perfis salvos.
+          A camada de fundo é inset-0, então nunca vaza mesmo assim. */}
+      <div className="relative">
         {/* Camada de FUNDO: só a listra + fade. Fica atrás de tudo (z-0) */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -35,8 +37,7 @@ function Home() {
               "repeating-linear-gradient(-45deg, rgba(160, 130, 60, 0.12) 0px, rgba(160, 130, 60, 0.12) 2px, transparent 2px, transparent 12px)",
             WebkitMaskImage:
               "linear-gradient(to bottom, black 0%, transparent 100%)",
-            maskImage:
-              "linear-gradient(to bottom, black 0%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
           }}
         />
 
