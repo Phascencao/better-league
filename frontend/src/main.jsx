@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import Home from "./Home.jsx";
 import Profile from "./pages/Profile.jsx";
 import EmBreve from "./pages/EmBreve.jsx";
+import Challenges from "./pages/Challenges.jsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/campeoes" element={<EmBreve secao="Campeões" />} />
         <Route path="/ao-vivo" element={<EmBreve secao="Ao vivo" />} />
         <Route path="/ranking" element={<EmBreve secao="Ranking" />} />
+        <Route path="/desafios" element={<Challenges />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
