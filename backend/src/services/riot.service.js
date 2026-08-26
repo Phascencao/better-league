@@ -3,6 +3,9 @@ import { env } from "../config/env.js";
 const REGION = `https://${env.riotRegion}.api.riotgames.com`;
 const PLATAFORM = `https://${env.riotPlataform}.api.riotgames.com`;
 
+const RIOT_BR_URL = "https://br1.api.riotgames.com";
+const RIOT_AMERICAS_URL = "https://americas.api.riotgames.com";
+
 function httpError(message, status) {
   //adiciona o objeto status para o erro, para que o server.js possa retornar o status correto
   const err = new Error(message);
@@ -40,6 +43,23 @@ async function riotFetch(base, path) {
   return res.json(); //retorna o json da resposta da Riot (erro caso nn seja ok)
 }
 
+export async function getChallengerPlayers() {
+  const response = await fetch(
+    `${RIOT_BR_URL}/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5`,
+    {
+      headers: {
+        "X-Riot-Token": env.riotApiKey,
+      },
+    }
+  );
+  if(!response.ok) {
+    throw new Error(`Erro ao consultar a Riot: ${response.status} ${response.statusText}`);
+  }
+  return response.json();
+}
+
+
+  
 export function getAccountByRiotId(gameName, tagLine) {
   return riotFetch(
     REGION,
