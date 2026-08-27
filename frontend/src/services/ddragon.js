@@ -26,3 +26,9 @@ export function getProfileIconUrl(profileIconId) {
 
   return `${CDN}/${DDRAGON_VERSION}/img/profileicon/${profileIconId}.png`;
 }
+
+export function getChampionImageUrl(championName) {
+  if (!championName) return null;
+
+  return `${CDN}/${DDRAGON_VERSION}/img/champion/${championName}.png`;
+}

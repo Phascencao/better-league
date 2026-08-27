@@ -1,23 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getTrendingChampions } from "../services/champions.js";
+import { getChampionImageUrl } from "../services/ddragon.js";
 
 // Dados falsos simulando o resultado do pipeline League-V4 -> Match-V5 -> agregação
 // No back-end real, isso viria de algo como: GET /api/trending-champions?region=BR1
-const fakeTrendingData = {
-  BR1: [
-    { champion: "Ahri", role: "MID", picks: 87, wins: 47, winRate: 54.0, pickRate: 8.7 },
-    { champion: "Viego", role: "JG", picks: 91, wins: 48, winRate: 52.7, pickRate: 9.1 },
-    { champion: "Janna", role: "SUP", picks: 64, wins: 35, winRate: 54.7, pickRate: 6.4 },
-    { champion: "Garen", role: "TOP", picks: 78, wins: 40, winRate: 51.3, pickRate: 7.8 },
-    { champion: "Jinx", role: "ADC", picks: 95, wins: 49, winRate: 51.6, pickRate: 9.5 },
-  ],
-  NA1: [
-    { champion: "Yasuo", role: "MID", picks: 102, wins: 51, winRate: 50.0, pickRate: 10.2 },
-    { champion: "Lee Sin", role: "JG", picks: 88, wins: 46, winRate: 52.3, pickRate: 8.8 },
-    { champion: "Thresh", role: "SUP", picks: 70, wins: 38, winRate: 54.3, pickRate: 7.0 },
-    { champion: "Ornn", role: "TOP", picks: 55, wins: 30, winRate: 54.5, pickRate: 5.5 },
-    { champion: "Kai'Sa", role: "ADC", picks: 99, wins: 50, winRate: 50.5, pickRate: 9.9 },
-  ],
-};
+
 
 const regions = [
   "BR1", "EUN1", "EUW1", "JP1", "KR", "LA1", "LA2",
@@ -26,9 +13,48 @@ const regions = [
 
 function CardTrendingChampions() {
   const [region, setRegion] = useState("BR1");
+  const [champions, setChampions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Fallback pra região sem dado fake ainda cadastrado (o back-end real cobriria todas)
-  const champions = fakeTrendingData[region] || fakeTrendingData.BR1;
+  useEffect(() => {
+    async function loadTrendingChampions() {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = await getTrendingChampions();
+        setChampions(data);
+      } catch (error) {
+        console.error(error);
+        setError("Erro ao buscar campeões em alta");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadTrendingChampions();
+  }, []);
+  
+    if (loading) {
+      return (
+        <div className="w-full max-w-sm bg-[#FBF3E1] border border-[#C9A961]/50 rounded-xl px-6 py-5">
+          <p className="text-[#17223A] text-sm font-bold">
+            Carregando campeões...
+          </p>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="w-full max-w-sm bg-[#FBF3E1] border border-[#C9A961]/50 rounded-xl px-6 py-5">
+          <p className="text-red-600 text-sm font-bold">
+            {error}
+          </p>
+        </div>
+      );
+    }
 
   return (
     <div className="w-full max-w-sm bg-[#FBF3E1] border border-[#C9A961]/50 rounded-xl px-6 py-5">
@@ -74,19 +100,17 @@ function CardTrendingChampions() {
             className="flex items-center justify-between py-2.5 border-b border-[#E8DCC0] last:border-b-0"
           >
             <div className="flex items-center gap-3">
-              <div
-                className="w-9 h-9 rounded-md flex-shrink-0"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(45deg, #E8DCC0, #E8DCC0 4px, #F5EEDA 4px, #F5EEDA 8px)",
-                }}
+              <img
+                src={getChampionImageUrl(c.champion)}
+                alt={c.champion}
+                className="w-9 h-9 rounded-md object-cover flex-shrink-0"
               />
               <div>
                 <p className="text-[#17223A] text-sm font-bold leading-tight">
                   {c.champion}
                 </p>
                 <p className="text-[10px] font-bold uppercase tracking-wide text-[#8A6A1B]">
-                  {c.role}
+                  {c.games} Partidas
                 </p>
               </div>
             </div>
