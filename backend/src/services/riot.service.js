@@ -43,6 +43,20 @@ async function riotFetch(base, path) {
   return res.json(); //retorna o json da resposta da Riot (erro caso nn seja ok)
 }
 
+export function getMatchById(matchId) {
+  return riotFetch(
+    REGION,
+    `/lol/match/v5/matches/${encodeURIComponent(matchId)}`
+  )
+}
+
+export function getMatchIdsByPuuid(puuid, count = 10) {
+  return riotFetch(
+    REGION,
+    `/lol/match/v5/matches/by-puuid/${encodeURIComponent(puuid)}/ids?start=0&count=${count}`,
+  );
+}
+
 export async function getChallengerPlayers() {
   const response = await fetch(
     `${RIOT_BR_URL}/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5`,
