@@ -1,8 +1,9 @@
-import ChampionPlaceholder from "./ChampionPlaceholder";
+import ProfileIcon from "./ProfileIcon";
 
 function ProfileBanner({
   gameName,
   tagLine,
+  profileIconId,
   level,
   ladderRegion,
   ladderPosition,
@@ -26,12 +27,7 @@ function ProfileBanner({
 
       <div className="relative z-10 max-w-[1400px] mx-auto flex items-center justify-between px-6 py-8">
         <div className="flex items-center gap-5">
-          <div className="relative">
-            <ChampionPlaceholder className="w-20 h-20 rounded-xl" />
-            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#17223A] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-              {level}
-            </span>
-          </div>
+          <ProfileIcon profileIconId={profileIconId} level={level} />
 
           <div>
             <div className="flex items-baseline gap-1">
